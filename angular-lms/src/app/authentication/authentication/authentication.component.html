@@ -1,0 +1,74 @@
+
+<div *ngIf="onLogin">
+  <div class="container">
+    <div class="content">
+      <div class="left-part">
+        <h2>Вход</h2>
+        <form class="loginForm" [formGroup]="loginForm">
+
+          <div class="input-item">
+            <p>Email:</p>
+            <input type="email" class="input-text" formControlName="loginInputEmail" [class.invalid-input-input]="loginInputEmail?.invalid"> 
+          </div>
+          <div class="input-item">
+            <p>Пароль:</p>
+            <input type="password" class="input-text" formControlName="loginInputPass" [class.invalid-input-input]="loginInputPass?.invalid">
+          </div>
+          <button class="submit" [class.invalid-button]="loginForm.invalid" (click)="loginSubmit()">Отправить</button>
+        </form>
+      </div>
+      <div class="right-part">
+        <img src="https://colorlib.com/etc/regform/colorlib-regform-7/images/signup-image.jpg" alt="">
+        <button (click)="toRegistration()">У меня нет аккаунта</button>
+      </div>
+      </div>
+  </div>
+</div>
+
+
+
+<div *ngIf="!onLogin">
+  <div class="container">
+    <div class="content">
+      <div class="left-part">
+        <h2>Регистрация</h2>
+        <form class="registration" [formGroup]="registrationForm">
+
+          <div class="input-item">
+            <p>Имя:</p>
+            <input type="text" class="input-text" formControlName="registrationInputFirstName" [class.invalid-input-input]="registrationInputFirstName?.invalid"> 
+          </div>
+          <div class="input-item">
+            <p>Фамилия:</p>
+            <input type="text" class="input-text" formControlName="registrationInputLastName" [class.invalid-input-input]="registrationInputLastName?.invalid">
+          </div>
+          <div class="input-item">
+            <p>Логин:</p>
+            <input type="text" class="input-text" formControlName="registrationInputLogin" [class.invalid-input-input]="registrationInputLogin?.invalid">
+          </div>
+          <div class="input-item">
+            <p>Email:</p>
+            <input type="email" class="input-text" formControlName="registrationInputEmail" [class.invalid-input-input]="registrationInputEmail?.invalid"> 
+          </div>
+          <div class="input-item">
+            <p>Пароль:</p>
+            <input type="password" class="input-text" formControlName="registrationInputPass" [class.invalid-input-input]="registrationInputPass?.invalid">
+          </div>
+          <div class="input-item">
+            <p>Повтор пароля</p>
+            <input type="password" class="input-text" formControlName="registrationInputConfirm" [class.invalid-input-input]="registrationForm.errors?.['notEqual']">
+          </div>
+          <div class="input-item">
+            <p>Принимаю условия:</p>
+              <input type="checkbox" class="input-checkbox" formControlName="registrationInputCheck" [class.invalid-input-input]="registrationInputCheck?.invalid">
+          </div>  
+          <button class="submit" [class.invalid-button]="registrationForm.invalid" (click)="registrationSubmit()">Отправить</button>
+        </form>
+      </div>
+      <div class="right-part">
+        <img src="https://colorlib.com/etc/regform/colorlib-regform-7/images/signup-image.jpg" alt="">
+        <button (click)="toLogin()">Я уже зарегистрирован</button>
+      </div>
+      </div>
+  </div>
+</div>

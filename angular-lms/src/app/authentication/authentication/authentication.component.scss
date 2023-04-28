@@ -1,0 +1,46 @@
+.container {
+  margin: 100px auto;
+  max-width: 1000px;
+  height: 500px;
+  box-shadow: 0 15px 16.83px 0.17px rgba(0,0,0,.05);
+  border-radius: 20px;
+  padding: 80px;
+  background-color: white;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+h2 {
+  width: inherit;
+  line-height: 1.66;
+  font-weight: 700;
+  color: var(--primary-black);
+  font-size: 36px;
+  text-align: center;
+}
+
+.left-part {
+  width: 400px;
+}
+
+.right-part {
+  width: 294px;
+  height: 314px;
+}
+
+input {
+  outline: none;
+}
+
+.invalid-input-input {
+  border: 1px solid red;
+}
+
+.invalid-button {
+  background-color: red;
+}

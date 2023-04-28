@@ -1,0 +1,9 @@
+
+<div>
+  <p>Ваша почта: <strong>{{ firebaseAuth.user?.email }}</strong></p>
+  <p>Ваш uid: <strong>{{ firebaseAuth.user?.uid }}</strong></p>
+  <p>Ваше Имя: <strong>{{ firebaseAuth.user?.firstName }}</strong></p>
+  <p>Ваша Фамилия: <strong>{{ firebaseAuth.user?.lastName }}</strong></p>
+</div>
+
+<button (click)="signOut()">Разлогинизироваться</button>
