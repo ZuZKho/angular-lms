@@ -3,6 +3,8 @@ import { FirebaseService } from './firebase.service';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, User } from "firebase/auth";
 import { Observable, from, of } from 'rxjs';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { UserInfo } from '../interfaces/user.interface';
+import { StoreService } from './store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,72 +12,82 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 export class AuthenticationService {
 
   auth: any;
-  user: any;
+  userInfo: UserInfo | null = null;
 
   constructor(
               private firebaseApp: FirebaseService, 
               private route: ActivatedRoute,
-              private router: Router
+              private router: Router,
+              private store: StoreService
   ) { 
     this.auth = getAuth(firebaseApp.app);
-    this.onState();
-    this.user = null;
-  }
 
-  createNewUser(firstName: string, lastName: string, userName: string, email: string, password: string) : Observable<string> {
-    return from(
-      createUserWithEmailAndPassword(this.auth, email, password)
-        .then((userCredential) => {
-          // Добавляем расширенные данные пользователя в базу данных
-          this.firebaseApp.createUserProfileData(userCredential.user.uid, firstName, lastName, userName, email);          
-          return 'OK';
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          return error.message;
-        }));
-  }
-
-  signInUser(email:string, password: string) : Observable<string> {
-    return from (
-      signInWithEmailAndPassword(this.auth, email, password)
-        .then(() => {
-          return 'OK';
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          return errorMessage;
-        })
-    );
-  }
-
-  onState() {
+    //====
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
-        this.firebaseApp.getUserProfileData(user.uid).subscribe((resp: any) => this.user = {uid: user.uid, ...resp.data()});
         this.router.navigate(['/user']);
+        this.firebaseApp.getUserProfileData(user.uid)
+          .then(
+            (response: any) => {
+              this.store.setUserInfo({uid: user.uid, ...response.data()});
+            })
       } else {
-        
-        this.router.navigate(['/']);
+        this.store.setUserInfo(null);
+        this.router.navigate(['']);
       }
     });
+    //====
+
+    this.store.userInfo$.subscribe((user) => this.userInfo = user)
   }
 
-  signOutUser(): Observable<string> {
-    return from(
+
+  createNewUser(firstName: string, lastName: string, userName: string, email: string, password: string){
+      createUserWithEmailAndPassword(this.auth, email, password)
+        .then((userCredential) => {
+          
+          const newUser: UserInfo = {
+            uid: userCredential.user.uid,
+            firstName: firstName,
+            lastName: lastName,
+            userName: userName,
+            email: email
+          }
+
+          this.firebaseApp.createUserProfileData(newUser);          
+          this.store.setUserInfo(newUser);
+          
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+  }
+
+  signInUser(email:string, password: string) {
+    signInWithEmailAndPassword(this.auth, email, password)
+      .then((userCredential) => {
+        this.firebaseApp.getUserProfileData(userCredential.user.uid)
+          .then(
+            (response: any) => this.store.setUserInfo({uid: userCredential.user.uid, ...response.data()} )
+          )
+                
+      })
+      .catch((error) => {
+        alert(error.message);
+      })
+  
+  }
+
+  signOutUser() {
       signOut(this.auth).then(() => {
-        this.user = null;
         // Sign-out successful.
-        return 'OK';
+        this.store.setUserInfo(null);
       }).catch((error) => {
         // An error happened.
-        return 'Error';
+        alert(error.message);
       })
-    );  
   }
-  
+
 }
 
 

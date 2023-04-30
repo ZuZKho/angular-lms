@@ -8,20 +8,21 @@ import { passwordValidator } from 'src/shared/validators/password.validator';
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
-  styleUrls: ['./authentication.component.scss']
-})
+  styleUrls: ['./authentication.component.scss']})
 export class AuthenticationComponent {
 
   constructor(
-    private firebaseAuth: AuthenticationService, 
+    private authService: AuthenticationService, 
     private router: Router
   ) 
   {
-    if (firebaseAuth.user) {
+    if (authService.userInfo) {
       this.router.navigate(['/user']);
     }
   }
 
+  loginOnSubmit: boolean = false;
+  registrationOnSubmit: boolean = false;
   onLogin: boolean = true;
 
   toLogin() {
@@ -32,13 +33,12 @@ export class AuthenticationComponent {
     this.onLogin = false;
   }
 
-
 // Форма регистрации
   registrationForm = new UntypedFormGroup({
     registrationInputFirstName: new UntypedFormControl(null, [Validators.required]),
     registrationInputLastName: new UntypedFormControl(null, [Validators.required]),
     registrationInputLogin: new UntypedFormControl(null, [Validators.required]),
-    registrationInputEmail: new UntypedFormControl(null, [Validators.required, Validators.email]),
+    registrationInputEmail: new UntypedFormControl(null, [Validators.required, Validators.email, Validators.maxLength(100)]),
     registrationInputPass: new UntypedFormControl(null, [Validators.required, Validators.minLength(6)]), // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a  , Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!$#_+-])[A-Za-z\\d!$#_+-]{5,}$')]
     registrationInputConfirm: new UntypedFormControl(null),
     registrationInputCheck: new UntypedFormControl(null, [Validators.requiredTrue])
@@ -57,25 +57,20 @@ export class AuthenticationComponent {
   get registrationInputCheck() { return this.registrationForm.get('registrationInputCheck'); }
 
   registrationSubmit() {
+    this.registrationOnSubmit = true;
     if (this.registrationForm.invalid) return;
 
-    this.firebaseAuth.createNewUser(
+    this.authService.createNewUser(
       this.registrationInputFirstName?.value, 
       this.registrationInputLastName?.value, 
       this.registrationInputLogin?.value, 
       this.registrationInputEmail?.value, 
-      this.registrationInputPass?.value).subscribe((message) => {
-        if (message === 'OK') {
-          this.onLogin = !this.onLogin;
-          this.registrationForm.reset();
-        } else {
-          alert(message);
-        } 
-      });
+      this.registrationInputPass?.value);
   }
+
 // Форма входа
   loginForm = new UntypedFormGroup({
-    loginInputEmail: new UntypedFormControl(null, [Validators.required]),
+    loginInputEmail: new UntypedFormControl(null, [Validators.required, Validators.email, Validators.maxLength(100)]),
     loginInputPass: new UntypedFormControl(null, [Validators.required]),
   });
 
@@ -84,15 +79,10 @@ export class AuthenticationComponent {
  
 
   loginSubmit() {
+    this.loginOnSubmit = true;
     if (this.loginForm.invalid) return;
 
-    this.firebaseAuth.signInUser(this.loginInputEmail?.value, this.loginInputPass?.value).subscribe((message) => {
-      if (message === 'OK') {
-        this.loginForm.reset();
-      } else {
-        alert(message);
-      }
-    });
+    this.authService.signInUser(this.loginInputEmail?.value, this.loginInputPass?.value);
   }
 
 }

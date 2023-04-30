@@ -1,34 +1,48 @@
 
-<div *ngIf="onLogin">
-  <div class="container">
+  <div *ngIf="onLogin" class="login-container">
     <div class="content">
       <div class="left-part">
         <h2>Вход</h2>
         <form class="loginForm" [formGroup]="loginForm">
-
           <div class="input-item">
             <p>Email:</p>
-            <input type="email" class="input-text" formControlName="loginInputEmail" [class.invalid-input-input]="loginInputEmail?.invalid"> 
+            <i class="fa-regular fa-envelope"></i>
+            <input type="email" class="input-text" 
+              formControlName="loginInputEmail"
+              [class.invalid-input-input]="loginInputEmail?.invalid && (loginInputEmail?.touched || loginOnSubmit)"  
+              placeholder="email@mail.ru">  
+            <div *ngIf="loginInputEmail?.errors?.['required'] && (loginInputEmail?.touched || loginOnSubmit)" class="invalid-input">
+              Поле обязательно для заполнения!
+            </div>   
+            <div *ngIf="loginInputEmail?.errors?.['maxlength'] && (loginInputEmail?.touched || loginOnSubmit)" class="invalid-input">
+              Максимальная длина - 100!
+            </div>
+            <div *ngIf="loginInputEmail?.errors?.['email'] && (loginInputEmail?.touched || loginOnSubmit)" class="invalid-input">
+              Почта не соответствует формату!
+            </div>
           </div>
           <div class="input-item">
             <p>Пароль:</p>
-            <input type="password" class="input-text" formControlName="loginInputPass" [class.invalid-input-input]="loginInputPass?.invalid">
-          </div>
-          <button class="submit" [class.invalid-button]="loginForm.invalid" (click)="loginSubmit()">Отправить</button>
+            <i class="fa-solid fa-unlock"></i>
+            <input type="password" class="input-text" 
+              formControlName="loginInputPass" 
+              [class.invalid-input-input]="loginInputPass?.invalid && (loginInputPass?.touched || loginOnSubmit)" 
+              placeholder="******">
+            <div *ngIf="loginInputPass?.errors?.['required'] && (loginInputPass?.touched || loginOnSubmit)" class="invalid-input">
+              Поле обязательно для заполнения!
+            </div>   
+            </div>
+          <button class="submit" [class.invalid-button]="loginForm.invalid" (click)="loginSubmit()">Войти</button>
         </form>
       </div>
       <div class="right-part">
-        <img src="https://colorlib.com/etc/regform/colorlib-regform-7/images/signup-image.jpg" alt="">
-        <button (click)="toRegistration()">У меня нет аккаунта</button>
+        <img src="../../../assets/images/signup-image.jpg" alt="Войти">
+        <a  (click)="toRegistration()">У меня нет аккаунта</a>
       </div>
       </div>
   </div>
-</div>
 
-
-
-<div *ngIf="!onLogin">
-  <div class="container">
+  <div *ngIf="!onLogin" class="registration-container">
     <div class="content">
       <div class="left-part">
         <h2>Регистрация</h2>
@@ -36,39 +50,73 @@
 
           <div class="input-item">
             <p>Имя:</p>
-            <input type="text" class="input-text" formControlName="registrationInputFirstName" [class.invalid-input-input]="registrationInputFirstName?.invalid"> 
+            <i class="fa-solid fa-user"></i>
+            <input type="text" class="input-text" formControlName="registrationInputFirstName" [class.invalid-input-input]="registrationInputFirstName?.invalid && (registrationInputFirstName?.touched || registrationOnSubmit)"> 
+            <div *ngIf="registrationInputFirstName?.errors?.['required'] && (registrationInputFirstName?.touched || registrationOnSubmit)" class="invalid-input">
+              Поле обязательно для заполнения!
+            </div>   
           </div>
           <div class="input-item">
             <p>Фамилия:</p>
-            <input type="text" class="input-text" formControlName="registrationInputLastName" [class.invalid-input-input]="registrationInputLastName?.invalid">
+            <i class="fa-regular fa-user"></i>
+            <input type="text" class="input-text" formControlName="registrationInputLastName" [class.invalid-input-input]="registrationInputLastName?.invalid && (registrationInputLastName?.touched || registrationOnSubmit)">
+            <div *ngIf="registrationInputLastName?.errors?.['required'] && (registrationInputLastName?.touched || registrationOnSubmit)" class="invalid-input">
+              Поле обязательно для заполнения!
+            </div>   
           </div>
           <div class="input-item">
             <p>Логин:</p>
-            <input type="text" class="input-text" formControlName="registrationInputLogin" [class.invalid-input-input]="registrationInputLogin?.invalid">
+            <i class="fa-solid fa-user-pen"></i>
+            <input type="text" class="input-text" formControlName="registrationInputLogin" [class.invalid-input-input]="registrationInputLogin?.invalid && (registrationInputLogin?.touched || registrationOnSubmit)">
+            <div *ngIf="registrationInputLogin?.errors?.['required'] && (registrationInputLogin?.touched || registrationOnSubmit)" class="invalid-input">
+              Поле обязательно для заполнения!
+            </div> 
           </div>
           <div class="input-item">
             <p>Email:</p>
-            <input type="email" class="input-text" formControlName="registrationInputEmail" [class.invalid-input-input]="registrationInputEmail?.invalid"> 
+            <i class="fa-regular fa-envelope"></i>
+            <input type="email" class="input-text" formControlName="registrationInputEmail" [class.invalid-input-input]="registrationInputEmail?.invalid && (registrationInputEmail?.touched || registrationOnSubmit)"> 
+            <div *ngIf="registrationInputEmail?.errors?.['required'] && (registrationInputEmail?.touched || registrationOnSubmit)" class="invalid-input">
+              Поле обязательно для заполнения!
+            </div>   
+            <div *ngIf="registrationInputEmail?.errors?.['maxlength'] && (registrationInputEmail?.touched || registrationOnSubmit)" class="invalid-input">
+              Максимальная длина - 100!
+            </div>
+            <div *ngIf="registrationInputEmail?.errors?.['email'] && (registrationInputEmail?.touched || registrationOnSubmit)" class="invalid-input">
+              Почта не соответствует формату!
+            </div>
           </div>
           <div class="input-item">
             <p>Пароль:</p>
-            <input type="password" class="input-text" formControlName="registrationInputPass" [class.invalid-input-input]="registrationInputPass?.invalid">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" class="input-text" formControlName="registrationInputPass" [class.invalid-input-input]="registrationInputPass?.invalid && (registrationInputPass?.touched || registrationOnSubmit)">
+            <div *ngIf="registrationInputPass?.errors?.['required'] && (registrationInputPass?.touched || registrationOnSubmit)" class="invalid-input">
+              Поле обязательно для заполнения!
+            </div>
+            <div *ngIf="registrationInputPass?.errors?.['minlength'] && (registrationInputPass?.touched || registrationOnSubmit)" class="invalid-input">
+              Слишком короткий пароль!
+            </div>  
           </div>
           <div class="input-item">
             <p>Повтор пароля</p>
-            <input type="password" class="input-text" formControlName="registrationInputConfirm" [class.invalid-input-input]="registrationForm.errors?.['notEqual']">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" class="input-text" formControlName="registrationInputConfirm" [class.invalid-input-input]="registrationForm.errors?.['notEqual'] && (registrationInputConfirm?.touched || registrationOnSubmit)">
+            <div *ngIf="registrationForm.errors?.['notEqual'] && (registrationInputConfirm?.touched || registrationOnSubmit)" class="invalid-input">
+              Пароли не совпадают!
+            </div>
           </div>
-          <div class="input-item">
-            <p>Принимаю условия:</p>
-              <input type="checkbox" class="input-checkbox" formControlName="registrationInputCheck" [class.invalid-input-input]="registrationInputCheck?.invalid">
+          <div class="input-item last-item">
+            Согласен на обработку персональных данных: <input type="checkbox" class="input-checkbox" formControlName="registrationInputCheck" [class.invalid-input-input]="registrationInputCheck?.invalid && (registrationInputCheck?.touched || registrationOnSubmit)">
+            <div *ngIf="registrationInputCheck?.errors?.['required'] && (registrationInputCheck?.touched || registrationOnSubmit)" class="invalid-input">
+              Необходимо ваше согласие!
+            </div>
           </div>  
           <button class="submit" [class.invalid-button]="registrationForm.invalid" (click)="registrationSubmit()">Отправить</button>
         </form>
       </div>
       <div class="right-part">
-        <img src="https://colorlib.com/etc/regform/colorlib-regform-7/images/signup-image.jpg" alt="">
-        <button (click)="toLogin()">Я уже зарегистрирован</button>
+        <img src="../../../assets/images/signin-image.jpg" alt="">
+        <a (click)="toLogin()">Я уже зарегистрирован</a>
       </div>
       </div>
   </div>
-</div>

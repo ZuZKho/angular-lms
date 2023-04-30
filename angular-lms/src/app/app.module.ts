@@ -8,23 +8,22 @@ import { AuthenticationModule } from './authentication/authentication/authentica
 import { FirebaseTSApp } from 'firebasets/firebasetsApp/firebaseTSApp'
 import { environment } from 'src/environments/environment';
 import { initializeApp } from 'firebase/app';
-import { HelperComponent } from './helper/helper.component';
+import { UserComponent } from './user/user/user.component';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HelperComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthenticationModule
+    AuthenticationModule,
+    UserModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { 
-
-  constructor() {}
 
 }

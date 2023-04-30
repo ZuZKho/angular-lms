@@ -4,6 +4,7 @@ import { getDatabase, ref, set } from "firebase/database";
 import { addDoc, collection, doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
 import { from, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UserInfo } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,22 +18,16 @@ export class FirebaseService {
     this.database = getFirestore(this.app);
   }
 
-  createUserProfileData(userUID: string, firstName: string, lastName: string, login: string, email: string) {
+  createUserProfileData(userInfo: UserInfo) {
     try {
-      setDoc(doc(this.database, "usersProfiles", userUID), {
-        userUID: userUID,
-        firstName: firstName,
-        lastName: lastName,
-        userName: login,
-        email: email
-      });
+      setDoc(doc(this.database, "usersProfiles", userInfo.uid), userInfo);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
 
   getUserProfileData(userUID: string) {
-    return from(getDoc(doc(this.database, "usersProfiles", userUID)));
+    return getDoc(doc(this.database, "usersProfiles", userUID));
   }
 
 }
