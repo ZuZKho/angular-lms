@@ -1,0 +1,13 @@
+<h2>Создание нового курса</h2>
+
+<form class="new-course-form" [formGroup]="newCourseForm">
+  <p>Название курса:</p>
+  <input type="text" formControlName="newCourseInputTitle">
+  <div *ngIf="newCourseInputTitle?.errors?.['required'] && (newCourseInputTitle?.touched || newCourseFormOnSubmit)" class="invalid-input-comment">
+    Поле обязательно для заполнения!
+  </div>  
+  <p>
+    <button (click)="toCourses()">Отмена</button>
+    <button [class.disabled]="newCourseForm.invalid" (click)="createNewCourse()">Создать</button>
+  </p>
+</form>

@@ -1,0 +1,35 @@
+.courses-flexbox {
+  display: flex;
+  flex-wrap: wrap;
+ // justify-content: space-between;
+
+  width: 100%;
+}
+
+
+.course-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-top: 40px;
+  margin-right: 25px;
+  padding: 15px;
+  width: 31%;
+  height: 200px;
+  box-shadow: 2px 2px 5px 0px rgba(34, 60, 80, 0.2);
+  border-radius: 10px;
+  background: linear-gradient(to bottom,    #4ac99b 45%, white 45%);;
+  transition: all 0.1s linear;
+
+  .additional-info {
+    color: var(--primary-gray);
+    font-weight: 600;
+    font-size: 12px;
+  }
+}
+
+.course-card:hover {
+  transform: translate(0, -2px);
+  box-shadow: 3px 4px 7px 1px rgba(34, 60, 80, 0.2);
+  transition: all 0.1s linear;
+}

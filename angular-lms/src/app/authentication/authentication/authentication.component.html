@@ -2,7 +2,7 @@
   <div *ngIf="onLogin" class="login-container">
     <div class="content">
       <div class="left-part">
-        <h2>Вход</h2>
+        <h1>Вход</h1>
         <form class="loginForm" [formGroup]="loginForm">
           <div class="input-item">
             <p>Email:</p>
@@ -32,7 +32,7 @@
               Поле обязательно для заполнения!
             </div>   
             </div>
-          <button class="submit" [class.invalid-button]="loginForm.invalid" (click)="loginSubmit()">Войти</button>
+          <button class="submit" [class.disabled]="loginForm.invalid" (click)="loginSubmit()">Войти</button>
         </form>
       </div>
       <div class="right-part">
@@ -45,7 +45,7 @@
   <div *ngIf="!onLogin" class="registration-container">
     <div class="content">
       <div class="left-part">
-        <h2>Регистрация</h2>
+        <h1>Регистрация</h1>
         <form class="registration" [formGroup]="registrationForm">
 
           <div class="input-item">
@@ -111,7 +111,7 @@
               Необходимо ваше согласие!
             </div>
           </div>  
-          <button class="submit" [class.invalid-button]="registrationForm.invalid" (click)="registrationSubmit()">Отправить</button>
+          <button class="submit" [class.disabled]="registrationForm.invalid" (click)="registrationSubmit()">Отправить</button>
         </form>
       </div>
       <div class="right-part">

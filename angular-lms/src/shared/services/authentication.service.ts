@@ -5,6 +5,7 @@ import { Observable, from, of } from 'rxjs';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserInfo } from '../interfaces/user.interface';
 import { StoreService } from './store.service';
+import { CoursesService } from './courses.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class AuthenticationService {
               private firebaseApp: FirebaseService, 
               private route: ActivatedRoute,
               private router: Router,
-              private store: StoreService
+              private store: StoreService,
+              private coursesService: CoursesService
   ) { 
     this.auth = getAuth(firebaseApp.app);
 
@@ -30,6 +32,7 @@ export class AuthenticationService {
           .then(
             (response: any) => {
               this.store.setUserInfo({uid: user.uid, ...response.data()});
+              this.coursesService.getCoursesListByUserUID(user.uid);
             })
       } else {
         this.store.setUserInfo(null);

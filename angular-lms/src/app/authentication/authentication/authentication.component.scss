@@ -44,16 +44,6 @@
   font-weight: 500;
 }
 
-h2 {
-  margin: 0;
-  margin-bottom: 20px;
-  color: var(--primary-black);
-  line-height: 1.66;
-  font-weight: 600;
-  font-size: 36px;
-  font-family: 'Montserrat', sans-serif; 
-}
-
 i {
   position: absolute;
   transform: translate(25%, 50%);
@@ -110,23 +100,6 @@ img {
     font-size: 13px;
     font-weight: 600;
   }
-}
-
-
-button {
-  margin-top: 25px;
-  padding: 13px 39px;
-  width: auto;
-  border: none;
-  border-radius: 16px;
-  background-color: var(--secondary-blue);
-  color: white;
-  font-family: 'Montserrat', sans-serif; 
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: var(--primary-blue);
 }
 
 a {

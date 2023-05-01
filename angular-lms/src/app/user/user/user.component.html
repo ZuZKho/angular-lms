@@ -20,9 +20,11 @@
 </section>
 
 <section class="main-content">
-  <div>
+  <div *ngIf="activeTab === 'profile'">
     <p>Ваша почта: <strong>{{ (storeService.userInfo$ | async)?.email }}</strong></p>
     <p>Ваш uid: <strong>{{ (storeService.userInfo$ | async)?.uid }}</strong></p>
   </div>
+  
+  <app-courses *ngIf="activeTab === 'courses'"></app-courses>
 </section>
   
